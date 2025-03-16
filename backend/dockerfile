@@ -1,0 +1,70 @@
+###################
+# BUILD PARA DESENVOLVIMENTO LOCAL
+###################
+
+# Usa uma imagem leve do Node.js como base
+FROM node:22.14.0-alpine AS dev
+
+RUN npm install --global corepack@latest
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package.json pnpm-lock.yaml ./ 
+
+RUN pnpm install
+
+COPY --chown=node:node . .
+
+RUN pnpm prisma generate
+
+CMD ["/bin/sh", "-c", "pnpm run start:dev"]
+
+###################
+# BUILD PARA PRODUÇÃO
+###################
+
+FROM node:22.14.0-alpine AS build
+
+RUN npm install --global corepack@latest
+
+USER node
+
+WORKDIR /usr/src/app
+
+COPY --chown=node:node package.json pnpm-lock.yaml ./
+
+COPY --chown=node:node --from=dev /usr/src/app/node_modules ./node_modules
+
+COPY --chown=node:node . .
+
+
+RUN pnpm prisma generate
+
+RUN pnpm build
+
+RUN pnpm install --prod --no-frozen-lockfile
+
+###################
+# PRODUÇÃO
+###################
+
+# Cria um novo estágio de produção
+FROM node:22.14.0-alpine AS prod
+
+RUN npm install --global corepack@latest
+
+USER node
+
+WORKDIR /app
+
+COPY --chown=node:node --from=build /usr/src/app/package*.json ./
+COPY --chown=node:node --from=build /usr/src/app/node_modules ./node_modules
+COPY --chown=node:node --from=build /usr/src/app/dist ./dist
+COPY --chown=node:node --from=build /usr/src/app/prisma /app/prisma
+
+RUN pnpm prisma migrate deploy
+
+# Inicia a aplicação
+CMD ["node", "dist/main.js"]
