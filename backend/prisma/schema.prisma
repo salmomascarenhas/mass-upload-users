@@ -1,0 +1,40 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+model Users {
+  id         String  @id @default(uuid()) @db.Uuid
+
+  name       String  @db.VarChar(255)
+  cpfCnpj    String  @db.VarChar(14)
+  email      String  @db.VarChar(255)
+  password   String  @db.VarChar(255)
+  createdAt  DateTime @default(now()) @db.Timestamp(3)
+  updatedAt  DateTime @default(now()) @db.Timestamp(3)
+
+  whitelabelId String  @db.Uuid
+  whitelabel   Whitelabel @relation(fields: [whitelabelId], references: [id], onDelete: Cascade)
+
+  @@unique([cpfCnpj, whitelabelId])
+  @@unique([email, whitelabelId])
+  @@map("users")
+}
+
+model Whitelabel {
+  id        String  @id @default(uuid()) @db.Uuid
+
+  name      String  @db.VarChar(255)
+  url       String  @db.VarChar(255) @unique
+  createdAt DateTime @default(now()) @db.Timestamp(3)
+  updatedAt DateTime @default(now()) @db.Timestamp(3)
+
+  users     Users[]
+
+  @@map("whitelabel")
+}

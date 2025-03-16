@@ -1,0 +1,64 @@
+services:
+  postgres:
+    image: "postgres:17.0"
+    container_name: mass_upload_application_database
+    restart: always
+    environment:
+      POSTGRES_DB: ${DB_DATABASE}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      TZ: "GMT"
+      PGTZ: "GMT"
+    ports:
+      - "${DB_PORT}:${DB_PORT}"
+    tmpfs:
+      - /data/postgres
+    env_file:
+      - .env
+    healthcheck:
+      test:
+        [
+          "CMD-SHELL",
+          "sh -c 'pg_isready -U ${DB_USERNAME} -d ${DB_DATABASE} -W ${DB_PASSWORD}'",
+        ]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+  backend:
+    container_name: "mass_upload_application_api_${NODE_ENV}"
+    image: "mass_upload_application_api_${NODE_ENV}"
+    environment:
+      - NODE_ENV:${NODE_ENV}
+    build:
+      context: ./backend
+      target: "${NODE_ENV}"
+      dockerfile: dockerfile
+    env_file:
+      - .env
+    ports:
+      - 3000:3000
+    volumes:
+      - ./backend:/usr/src/app
+      - /usr/src/app/node_modules
+    restart: unless-stopped
+    depends_on:
+      postgres:
+        condition: service_healthy
+  # frontend:
+  #   container_name: "mass_upload_application_frontend_${NODE_ENV}"
+  #   image: "mass_upload_application_frontend_${NODE_ENV}"
+  #   environment:
+  #     - NODE_ENV:${NODE_ENV}
+  #   build:
+  #     context: ./frontend
+  #     target: "${NODE_ENV}"
+  #     dockerfile: dockerfile
+  #   env_file:
+  #     - .env
+  #   ports:
+  #     - 8080:8080
+  #   volumes:
+  #     - ./frontend:/usr/src/app
+  #     - /usr/src/app/node_modules
+  #   restart: unless-stopped
+  #   depends_on:
+  #     - backend
