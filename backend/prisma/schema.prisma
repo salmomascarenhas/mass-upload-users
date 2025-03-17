@@ -14,7 +14,6 @@ model Users {
   name       String  @db.VarChar(255)
   cpfCnpj    String  @db.VarChar(14)
   email      String  @db.VarChar(255)
-  password   String  @db.VarChar(255)
   createdAt  DateTime @default(now()) @db.Timestamp(3)
   updatedAt  DateTime @default(now()) @db.Timestamp(3)
 
