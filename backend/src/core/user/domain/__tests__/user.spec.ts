@@ -77,7 +77,7 @@ describe('User Unit Test', () => {
         whitelabel_id: new Uuid().id,
       });
 
-      user.changeFullName('Jane Doe');
+      user.changeName('Jane Doe');
       expect(user.name).toBe('Jane Doe');
       expect(User.prototype.validate).toHaveBeenCalledTimes(2);
     });

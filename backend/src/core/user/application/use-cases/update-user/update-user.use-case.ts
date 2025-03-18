@@ -18,7 +18,7 @@ export class UpdateUserUseCase
 
     if (input.name) user.changeName(input.name);
     if (input.email) user.changeEmail(input.email);
-    if (input.cpf_cnpj) user.changecpf_cnpj(new CpfCnpj(input.cpf_cnpj));
+    if (input.cpf_cnpj) user.changeCpfCnpj(new CpfCnpj(input.cpf_cnpj));
 
     if (user.notification.hasErrors()) {
       throw new EntityValidationError(user.notification.toJSON());

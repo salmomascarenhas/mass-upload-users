@@ -52,7 +52,7 @@ export class User extends Entity {
     return user;
   }
 
-  changeFullName(name: string): void {
+  changeName(name: string): void {
     this.name = name;
     this.validate(['name']);
   }
@@ -62,7 +62,7 @@ export class User extends Entity {
     this.validate(['email']);
   }
 
-  changecpf_cnpj(cpf_cnpj: CpfCnpj): void {
+  changeCpfCnpj(cpf_cnpj: CpfCnpj): void {
     this.cpf_cnpj = cpf_cnpj;
   }
 
