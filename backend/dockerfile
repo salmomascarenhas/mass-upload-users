@@ -17,9 +17,10 @@ RUN pnpm install
 
 COPY --chown=node:node . .
 
-RUN pnpm prisma generate
+RUN pnpm dlx prisma generate
 
-CMD ["/bin/sh", "-c", "pnpm run start:dev"]
+CMD ["/bin/sh", "-c", "pnpm run migrate:dev && pnpm run start:dev"]
+
 
 ###################
 # BUILD PARA PRODUÇÃO
@@ -40,7 +41,7 @@ COPY --chown=node:node --from=dev /usr/src/app/node_modules ./node_modules
 COPY --chown=node:node . .
 
 
-RUN pnpm prisma generate
+RUN pnpm dlx prisma generate
 
 RUN pnpm build
 
