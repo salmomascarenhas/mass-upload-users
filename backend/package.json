@@ -29,6 +29,7 @@
     "@nestjs/swagger": "^11.0.6",
     "@prisma/client": "^6.5.0",
     "bullmq": "^5.43.1",
+    "class-transformer": "^0.5.1",
     "class-validator": "^0.14.1",
     "dotenv-cli": "^8.0.0",
     "ioredis": "^5.6.0",
@@ -87,5 +88,6 @@
     ],
     "coverageDirectory": "../coverage",
     "testEnvironment": "node"
-  }
+  },
+  "packageManager": "pnpm@10.6.4+sha512.da3d715bfd22a9a105e6e8088cfc7826699332ded60c423b14ec613a185f1602206702ff0fe4c438cb15c979081ce4cb02568e364b15174503a63c7a8e2a5f6c"
 }
