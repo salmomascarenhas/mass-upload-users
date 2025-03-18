@@ -71,7 +71,7 @@ export const CONFIG_SERVER_SCHEMA: Joi.StrictSchemaMap<SERVER_SCHEMA_TYPE> = {
     then: Joi.string().required(),
     otherwise: Joi.string().default('localhost'),
   }),
-  SERVER_PORT: Joi.number().default(3000),
+  SERVER_PORT: Joi.number().required(),
   SERVER_CORS_ORIGIN: Joi.string().when('NODE_ENV', {
     is: Joi.valid('prod'),
     then: Joi.string().required(),
