@@ -2,6 +2,7 @@ import { ISearchableRepository } from '../../shared/domain/repository/repository
 import { SearchParams } from '../../shared/domain/repository/search-params';
 import { SearchResult } from '../../shared/domain/repository/search-result';
 import { CpfCnpj } from '../../shared/domain/value-objects/cpf-cnpj.vo';
+import { WhitelabelId } from '../../whitelabel/domain/whitelabel';
 import { User, UserId } from './user';
 
 export type UserFilter = string;
@@ -18,6 +19,9 @@ export interface IUserRepository
     UserSearchParams,
     UserSearchResult
   > {
-  findByCpfCnpj(cpfCnpj: CpfCnpj, whitelabelId: string): Promise<User | null>;
-  findByEmail(email: string, whitelabelId: string): Promise<User | null>;
+  findByCpfCnpj(
+    cpfCnpj: CpfCnpj,
+    whitelabelId: WhitelabelId,
+  ): Promise<User | null>;
+  findByEmail(email: string, whitelabelId: WhitelabelId): Promise<User | null>;
 }
