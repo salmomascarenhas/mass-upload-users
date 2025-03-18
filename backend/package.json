@@ -21,14 +21,17 @@
     "migrate:dev": "dotenv -e ./.env -- npx prisma migrate dev --schema=./prisma/schema.prisma"
   },
   "dependencies": {
+    "@nestjs/bullmq": "^11.0.2",
     "@nestjs/common": "^11.0.1",
     "@nestjs/config": "^4.0.1",
     "@nestjs/core": "^11.0.1",
     "@nestjs/platform-express": "^11.0.1",
     "@nestjs/swagger": "^11.0.6",
     "@prisma/client": "^6.5.0",
+    "bullmq": "^5.43.1",
     "class-validator": "^0.14.1",
     "dotenv-cli": "^8.0.0",
+    "ioredis": "^5.6.0",
     "joi": "^17.13.3",
     "lodash": "^4.17.21",
     "prisma": "^6.5.0",
