@@ -83,7 +83,7 @@ export class UserFakeBuilder<TBuild = any> {
       user.validate();
       return user;
     });
-    return this.countObjs === 1 ? (users[0] as any) : users;
+    return this.countObjs === 1 ? (users[0] as any) : (users as any);
   }
 
   private callFactory(factoryOrValue: PropOrFactory<any>, index: number) {
