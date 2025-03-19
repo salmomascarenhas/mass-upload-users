@@ -21,9 +21,9 @@ export class ListUsersUseCase
   async execute(input: ListUsersInput): Promise<ListUsersOutput> {
     const searchParams = new UserSearchParams({
       page: input.page ?? 1,
-      per_page: input.per_page ?? 15,
+      per_page: input.perPage ?? 10,
       sort: input.sort ?? 'created_at',
-      sort_dir: input.sort_dir ?? 'desc',
+      sort_dir: input.sortDir ?? 'desc',
       filter: input.filter ?? null,
     });
 
@@ -41,9 +41,9 @@ export class ListUsersUseCase
 
 export type ListUsersInput = {
   page?: number | null;
-  per_page?: number | null;
+  perPage?: number | null;
   sort?: string | null;
-  sort_dir?: SortDirection | null;
+  sortDir?: SortDirection | null;
   filter?: UserFilter | null;
 };
 
