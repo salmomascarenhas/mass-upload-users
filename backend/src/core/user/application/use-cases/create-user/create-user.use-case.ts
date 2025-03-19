@@ -21,9 +21,9 @@ export class CreateUserUseCase
   ) {}
 
   async execute(input: CreateUserInput): Promise<CreateUserOutput> {
-    const cpfCnpj = new CpfCnpj(input.cpf_cnpj);
+    const cpfCnpj = new CpfCnpj(input.cpfCnpj);
 
-    const whitelabelId = new WhitelabelId(input.whitelabel_id);
+    const whitelabelId = new WhitelabelId(input.whitelabelId);
     const whitelabel = await this.whitelabelRepo.findById(whitelabelId);
     if (!whitelabel)
       throw new NotFoundEntityError(whitelabelId.toString(), Whitelabel);
@@ -44,6 +44,7 @@ export class CreateUserUseCase
     const userEntity = User.create({
       ...input,
       cpf_cnpj: cpfCnpj,
+      whitelabel_id: whitelabelId,
     });
 
     if (userEntity.notification.hasErrors())
@@ -57,8 +58,8 @@ export class CreateUserUseCase
 export type CreateUserInput = {
   name: string;
   email: string;
-  cpf_cnpj: string;
-  whitelabel_id: string;
+  cpfCnpj: string;
+  whitelabelId: string;
 };
 
 export type CreateUserOutput = UserOutput;

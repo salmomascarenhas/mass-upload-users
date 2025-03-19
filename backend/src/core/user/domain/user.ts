@@ -2,6 +2,7 @@ import { Entity } from '../../shared/domain/entity';
 import { ValueObject } from '../../shared/domain/value-object';
 import { CpfCnpj } from '../../shared/domain/value-objects/cpf-cnpj.vo';
 import { Uuid } from '../../shared/domain/value-objects/uuid.vo';
+import { WhitelabelId } from '../../whitelabel/domain/whitelabel';
 import { UserFakeBuilder } from './user-fake.builder';
 import { UserValidatorFactory } from './user.validator';
 
@@ -12,7 +13,7 @@ export type UserConstructorProps = {
   name: string;
   email: string;
   cpf_cnpj: CpfCnpj;
-  whitelabel_id: string;
+  whitelabel_id: WhitelabelId;
   created_at?: Date | null;
   updated_at?: Date | null;
 };
@@ -27,7 +28,7 @@ export class User extends Entity {
   name: string;
   email: string;
   cpf_cnpj: CpfCnpj;
-  whitelabel_id: string;
+  whitelabel_id: WhitelabelId;
   created_at: Date;
   updated_at: Date;
 
@@ -77,11 +78,11 @@ export class User extends Entity {
 
   toJSON() {
     return {
-      user_id: this.user_id.id,
+      user_id: this.user_id.toString(),
       name: this.name,
       email: this.email,
       cpf_cnpj: this.cpf_cnpj.getFormatted(),
-      whitelabel_id: this.whitelabel_id,
+      whitelabel_id: this.whitelabel_id.toString(),
       created_at: this.created_at,
       updated_at: this.updated_at,
     };
