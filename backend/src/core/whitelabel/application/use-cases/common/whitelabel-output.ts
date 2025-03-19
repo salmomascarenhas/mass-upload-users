@@ -4,6 +4,8 @@ export type WhitelabelOutput = {
   whitelabel_id: string;
   name: string;
   url: string;
+  created_at: Date;
+  updated_at: Date;
 };
 
 export class WhitelabelOutputMapper {
