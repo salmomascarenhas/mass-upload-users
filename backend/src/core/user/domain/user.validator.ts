@@ -13,10 +13,6 @@ export class UserRules {
   @IsNotEmpty()
   email: string;
 
-  @IsString({ groups: ['cpf_cnpj'] })
-  @IsNotEmpty({ groups: ['cpf_cnpj'] })
-  cpf_cnpj: string;
-
   constructor(entity: User) {
     Object.assign(this, entity);
   }
