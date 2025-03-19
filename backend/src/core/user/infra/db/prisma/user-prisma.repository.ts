@@ -11,7 +11,7 @@ import {
 import { PrismaUserMapper } from './prisma-user.mapper';
 
 export class UserPrismaRepository implements IUserRepository {
-  sortableFields: string[] = ['name', 'email', 'created_at', 'updated_at'];
+  sortableFields: string[] = ['name', 'email', 'createdAt', 'updatedAt'];
 
   constructor(private readonly prisma: PrismaService) {}
 
