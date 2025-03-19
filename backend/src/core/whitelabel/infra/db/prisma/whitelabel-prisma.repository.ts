@@ -10,7 +10,7 @@ import {
 import { PrismaWhitelabelMapper } from './whitelabel-prisma.mapper';
 
 export class WhitelabelPrismaRepository implements IWhitelabelRepository {
-  sortableFields: string[] = ['name', 'url', 'created_at', 'updated_at'];
+  sortableFields: string[] = ['name', 'url', 'createdAt', 'updatedAt'];
 
   constructor(private readonly prisma: PrismaService) {}
 
