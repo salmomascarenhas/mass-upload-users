@@ -55,6 +55,16 @@ export class UsersController {
     return new UserPresenter(user);
   }
 
+  @ApiOperation({ summary: 'Listar usuários com filtros e paginação' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Lista de usuários paginada',
+  })
+  @Get('search')
+  async searchUsers(@Query() searchDto: SearchUsersDto) {
+    return await this.listUsersUseCase.execute(searchDto);
+  }
+
   @ApiOperation({ summary: 'Buscar um usuário pelo ID' })
   @ApiResponse({ status: HttpStatus.OK, type: UserPresenter })
   @ApiNotFoundResponse({ description: 'Usuário não encontrado' })
@@ -85,15 +95,5 @@ export class UsersController {
   @Delete(':userId')
   async deleteUser(@Param('userId') userId: string): Promise<void> {
     await this.deleteUserUseCase.execute({ user_id: userId });
-  }
-
-  @ApiOperation({ summary: 'Listar usuários com filtros e paginação' })
-  @ApiResponse({
-    status: HttpStatus.OK,
-    description: 'Lista de usuários paginada',
-  })
-  @Get('search')
-  async listUsers(@Query() searchDto: SearchUsersDto) {
-    return await this.listUsersUseCase.execute(searchDto);
   }
 }
