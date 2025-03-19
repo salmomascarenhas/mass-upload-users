@@ -25,7 +25,10 @@ import { ListWhitelabelsUseCase } from '../../core/whitelabel/application/use-ca
 import { UpdateWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/update-whitelabel/update-whitelabel.use-case';
 import { CreateWhitelabelDto } from './dto/create-whitelabel.dto';
 import { SearchWhitelabelsDto } from './dto/search-whitelabels.dto';
-import { WhitelabelPresenter } from './presenter/whitelabel.presenter';
+import {
+  PaginatedWhitelabelPresenter,
+  WhitelabelPresenter,
+} from './presenter/whitelabel.presenter';
 
 @ApiTags('Whitelabels')
 @Controller('whitelabels')
@@ -63,12 +66,15 @@ export class WhitelabelsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Permite buscar Whitelabels com paginação',
-    type: WhitelabelPresenter,
-    isArray: true,
+    type: PaginatedWhitelabelPresenter,
   })
   @Get('search')
   async searchWhitelabels(@Query() searchDto: SearchWhitelabelsDto) {
-    return await this.listWhitelabelsUseCase.execute(searchDto);
+    const whitelabelsPaginationResult =
+      await this.listWhitelabelsUseCase.execute(searchDto);
+    return PaginatedWhitelabelPresenter.toCollection(
+      whitelabelsPaginationResult,
+    );
   }
 
   @ApiOperation({ summary: 'Buscar um Whitelabel pelo ID' })

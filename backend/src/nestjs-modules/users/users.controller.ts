@@ -26,7 +26,10 @@ import { UpdateUserUseCase } from '../../core/user/application/use-cases/update-
 import { CreateUserDto } from './dto/create-user.dto';
 import { SearchUsersDto } from './dto/search-users.dto';
 import { UpdateUserDto } from './dto/update-user.dto';
-import { UserPresenter } from './presenter/user.presenter';
+import {
+  PaginatedUserPresenter,
+  UserPresenter,
+} from './presenter/user.presenter';
 
 @ApiTags('Users')
 @Controller('users')
@@ -59,10 +62,15 @@ export class UsersController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Lista de usuários paginada',
+    type: PaginatedUserPresenter,
   })
   @Get('search')
-  async searchUsers(@Query() searchDto: SearchUsersDto) {
-    return await this.listUsersUseCase.execute(searchDto);
+  async searchUsers(
+    @Query() searchDto: SearchUsersDto,
+  ): Promise<PaginatedUserPresenter> {
+    const usersPaginationResult =
+      await this.listUsersUseCase.execute(searchDto);
+    return PaginatedUserPresenter.toCollection(usersPaginationResult);
   }
 
   @ApiOperation({ summary: 'Buscar um usuário pelo ID' })

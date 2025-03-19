@@ -1,5 +1,6 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { Transform } from 'class-transformer';
+import { Transform, Type } from 'class-transformer';
+import { PaginationOutput } from '../../../core/shared/application/pagination-output';
 import { UserOutput } from '../../../core/user/application/use-cases/common/user-output';
 
 export class UserPresenter {
@@ -45,5 +46,43 @@ export class UserPresenter {
     this.cpfCnpj = user.cpf_cnpj;
     this.createdAt = user.created_at;
     this.updatedAt = user.updated_at;
+  }
+}
+
+export class PaginatedUserPresenter {
+  @ApiProperty({
+    description: 'Lista de usuários',
+    type: [UserPresenter],
+  })
+  @Type(() => UserPresenter)
+  items: UserPresenter[];
+
+  @ApiProperty({ description: 'Total de usuários encontrados', example: 3 })
+  total: number;
+
+  @ApiProperty({ description: 'Página atual', example: 1 })
+  currentPage: number;
+
+  @ApiProperty({ description: 'Quantidade de itens por página', example: 10 })
+  perPage: number;
+
+  @ApiProperty({ description: 'Número total de páginas', example: 1 })
+  lastPage: number;
+
+  constructor(paginationResult: PaginationOutput<UserOutput>) {
+    this.items = paginationResult.items.map((user) => new UserPresenter(user));
+    this.total = paginationResult.total;
+    this.currentPage = paginationResult.current_page;
+    this.perPage = paginationResult.per_page;
+    this.lastPage = paginationResult.last_page;
+  }
+
+  /**
+   * Método estático para converter um `PaginationOutput<UserOutput>` em `PaginatedUserPresenter`
+   * @param paginationResult Objeto contendo os dados paginados.
+   * @returns `PaginatedUserPresenter` estruturado.
+   */
+  static toCollection(paginationResult: PaginationOutput<UserOutput>) {
+    return new PaginatedUserPresenter(paginationResult);
   }
 }
