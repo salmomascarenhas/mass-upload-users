@@ -1,5 +1,5 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, IsUUID, Length } from 'class-validator';
+import { IsEmail, IsNotEmpty, IsString, IsUUID } from 'class-validator';
 import { CreateUserInput } from '../../../core/user/application/use-cases/create-user/create-user.use-case';
 
 export class CreateUserDto implements CreateUserInput {
@@ -19,7 +19,6 @@ export class CreateUserDto implements CreateUserInput {
 
   @ApiProperty({ description: 'CPF do usuário', example: '091.012.426-44' })
   @IsString()
-  @Length(11, 14)
   @IsNotEmpty()
   cpfCnpj: string;
 
