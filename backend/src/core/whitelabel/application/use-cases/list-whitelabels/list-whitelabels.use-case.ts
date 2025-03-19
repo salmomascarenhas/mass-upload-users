@@ -23,9 +23,9 @@ export class ListWhitelabelsUseCase
   async execute(input: ListWhitelabelsInput): Promise<ListWhitelabelsOutput> {
     const searchParams = new WhitelabelSearchParams({
       page: input.page ?? 1,
-      per_page: input.per_page ?? 15,
+      per_page: input.perPage ?? 10,
       sort: input.sort ?? 'created_at',
-      sort_dir: input.sort_dir ?? 'desc',
+      sort_dir: input.sortDir ?? 'desc',
       filter: input.filter ?? null,
     });
 
@@ -43,9 +43,9 @@ export class ListWhitelabelsUseCase
 
 export type ListWhitelabelsInput = {
   page?: number | undefined | null;
-  per_page?: number | undefined | null;
+  perPage?: number | undefined | null;
   sort?: string | null;
-  sort_dir?: SortDirection | null;
+  sortDir?: SortDirection | null;
   filter?: WhitelabelFilter | null;
 };
 
