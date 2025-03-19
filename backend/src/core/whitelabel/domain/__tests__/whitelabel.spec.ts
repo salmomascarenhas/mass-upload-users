@@ -20,7 +20,7 @@ describe('Whitelabel Unit Test', () => {
         updated_at: updatedAt,
       });
       expect(whitelabel).toBeInstanceOf(Whitelabel);
-      expect(whitelabel.whitelabel_id.id).toBe(uuidString);
+      expect(whitelabel.whitelabel_id.toString()).toBe(uuidString);
       expect(whitelabel.name).toBe('Test Whitelabel');
       expect(whitelabel.url).toBe('https://test.com');
       expect(whitelabel.created_at).toBe(createdAt);
@@ -71,7 +71,7 @@ describe('Whitelabel Unit Test', () => {
       });
 
       expect(whitelabel.toJSON()).toEqual({
-        whitelabel_id: whitelabel.whitelabel_id.id,
+        whitelabel_id: whitelabel.whitelabel_id.toString(),
         name: whitelabel.name,
         url: whitelabel.url,
         created_at: whitelabel.created_at,

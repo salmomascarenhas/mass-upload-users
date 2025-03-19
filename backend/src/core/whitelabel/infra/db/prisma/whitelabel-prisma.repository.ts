@@ -35,7 +35,7 @@ export class WhitelabelPrismaRepository implements IWhitelabelRepository {
   }
 
   async update(entity: Whitelabel): Promise<void> {
-    const id = entity.whitelabel_id.id;
+    const id = entity.whitelabel_id.toString();
     const data = PrismaWhitelabelMapper.toPrisma(entity);
     const updated = await this.prisma.whitelabel.update({
       where: { id },
@@ -46,7 +46,7 @@ export class WhitelabelPrismaRepository implements IWhitelabelRepository {
   }
 
   async delete(entity_id: WhitelabelId): Promise<void> {
-    const id = entity_id.id;
+    const id = entity_id.toString();
     try {
       await this.prisma.whitelabel.delete({ where: { id } });
     } catch {
@@ -56,7 +56,7 @@ export class WhitelabelPrismaRepository implements IWhitelabelRepository {
 
   async findById(entity_id: WhitelabelId): Promise<Whitelabel | null> {
     const model = await this.prisma.whitelabel.findUnique({
-      where: { id: entity_id.id },
+      where: { id: entity_id.toString() },
     });
     return model ? PrismaWhitelabelMapper.toDomain(model) : null;
   }
@@ -68,7 +68,7 @@ export class WhitelabelPrismaRepository implements IWhitelabelRepository {
 
   async findByIds(ids: WhitelabelId[]): Promise<Whitelabel[]> {
     const models = await this.prisma.whitelabel.findMany({
-      where: { id: { in: ids.map((id) => id.id) } },
+      where: { id: { in: ids.map((id) => id.toString()) } },
     });
     return models.map(PrismaWhitelabelMapper.toDomain);
   }
@@ -83,7 +83,7 @@ export class WhitelabelPrismaRepository implements IWhitelabelRepository {
     }
 
     const existingModels = await this.prisma.whitelabel.findMany({
-      where: { id: { in: ids.map((id) => id.id) } },
+      where: { id: { in: ids.map((id) => id.toString()) } },
       select: { id: true },
     });
 

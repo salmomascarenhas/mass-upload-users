@@ -24,7 +24,7 @@ describe('CreateWhitelabelUseCase Unit Tests', () => {
 
     expect(spyInsert).toHaveBeenCalledTimes(1);
     expect(output).toEqual({
-      whitelabel_id: repository.items[0].whitelabel_id.id,
+      whitelabel_id: repository.items[0].whitelabel_id.toString(),
       name: repository.items[0].name,
       url: repository.items[0].url,
       created_at: repository.items[0].created_at,

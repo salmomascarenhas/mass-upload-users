@@ -61,7 +61,7 @@ export class Whitelabel extends Entity {
 
   toJSON() {
     return {
-      whitelabel_id: this.whitelabel_id.id,
+      whitelabel_id: this.whitelabel_id.toString(),
       name: this.name,
       url: this.url,
       created_at: this.created_at,

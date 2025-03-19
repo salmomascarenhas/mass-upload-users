@@ -14,7 +14,7 @@ export class PrismaWhitelabelMapper {
 
   static toPrisma(whitelabel: Whitelabel): PrismaWhitelabel {
     return {
-      id: whitelabel.whitelabel_id.id,
+      id: whitelabel.whitelabel_id.toString(),
       name: whitelabel.name,
       url: whitelabel.url,
       createdAt: whitelabel.created_at,

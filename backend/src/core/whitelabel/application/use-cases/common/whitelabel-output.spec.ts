@@ -13,7 +13,7 @@ describe('WhitelabelOutputMapper Unit Tests', () => {
 
     expect(spyToJSON).toHaveBeenCalled();
     expect(output).toStrictEqual({
-      whitelabel_id: entity.whitelabel_id.id,
+      whitelabel_id: entity.whitelabel_id.toString(),
       name: 'My Club',
       url: 'https://myclub.com',
     });

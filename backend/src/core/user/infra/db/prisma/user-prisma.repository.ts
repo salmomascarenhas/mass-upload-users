@@ -38,7 +38,7 @@ export class UserPrismaRepository implements IUserRepository {
   }
 
   async update(entity: User): Promise<void> {
-    const id = entity.user_id.id;
+    const id = entity.user_id.toString();
     const data = PrismaUserMapper.toPrisma(entity);
     const updated = await this.prisma.users.update({
       where: { id },
@@ -48,7 +48,7 @@ export class UserPrismaRepository implements IUserRepository {
   }
 
   async delete(entity_id: UserId): Promise<void> {
-    const id = entity_id.id;
+    const id = entity_id.toString();
     try {
       await this.prisma.users.delete({ where: { id } });
     } catch {
@@ -58,7 +58,7 @@ export class UserPrismaRepository implements IUserRepository {
 
   async findById(entity_id: UserId): Promise<User | null> {
     const model = await this.prisma.users.findUnique({
-      where: { id: entity_id.id },
+      where: { id: entity_id.toString() },
     });
     return model ? PrismaUserMapper.toDomain(model) : null;
   }
@@ -70,7 +70,7 @@ export class UserPrismaRepository implements IUserRepository {
 
   async findByIds(ids: UserId[]): Promise<User[]> {
     const models = await this.prisma.users.findMany({
-      where: { id: { in: ids.map((id) => id.id) } },
+      where: { id: { in: ids.map((id) => id.toString()) } },
     });
     return models.map(PrismaUserMapper.toDomain);
   }
@@ -85,7 +85,7 @@ export class UserPrismaRepository implements IUserRepository {
     }
 
     const existingModels = await this.prisma.users.findMany({
-      where: { id: { in: ids.map((id) => id.id) } },
+      where: { id: { in: ids.map((id) => id.toString()) } },
       select: { id: true },
     });
 

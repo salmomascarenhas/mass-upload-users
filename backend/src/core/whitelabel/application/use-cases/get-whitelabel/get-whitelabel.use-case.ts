@@ -16,7 +16,8 @@ export class GetWhitelabelUseCase
     const whitelabelId = new WhitelabelId(input.whitelabel_id);
     const whitelabel = await this.whitelabelRepository.findById(whitelabelId);
 
-    if (!whitelabel) throw new NotFoundEntityError(whitelabelId.id, Whitelabel);
+    if (!whitelabel)
+      throw new NotFoundEntityError(whitelabelId.toString(), Whitelabel);
 
     return WhitelabelOutputMapper.toOutput(whitelabel);
   }

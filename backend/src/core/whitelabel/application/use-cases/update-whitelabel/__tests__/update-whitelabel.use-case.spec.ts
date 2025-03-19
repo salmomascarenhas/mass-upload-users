@@ -19,7 +19,7 @@ describe('UpdateWhitelabelUseCase Unit Tests', () => {
     repository.items = [entity];
 
     const output = await useCase.execute({
-      whitelabel_id: entity.whitelabel_id.id,
+      whitelabel_id: entity.whitelabel_id.toString(),
       name: 'Updated Club',
     });
 
