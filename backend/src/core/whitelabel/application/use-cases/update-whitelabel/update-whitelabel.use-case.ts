@@ -13,7 +13,7 @@ export class UpdateWhitelabelUseCase
   constructor(private readonly whitelabelRepository: IWhitelabelRepository) {}
 
   async execute(input: UpdateWhitelabelInput): Promise<WhitelabelOutput> {
-    const whitelabelId = new WhitelabelId(input.whitelabel_id);
+    const whitelabelId = new WhitelabelId(input.whitelabelId);
     const whitelabel = await this.whitelabelRepository.findById(whitelabelId);
 
     if (!whitelabel) throw new NotFoundEntityError(whitelabelId.id, Whitelabel);
@@ -27,7 +27,7 @@ export class UpdateWhitelabelUseCase
 }
 
 export type UpdateWhitelabelInput = {
-  whitelabel_id: string;
+  whitelabelId: string;
   name?: string;
   url?: string;
 };

@@ -63,11 +63,14 @@ export class WhitelabelsController {
   @ApiResponse({
     status: HttpStatus.OK,
     description: 'Permite buscar Whitelabels com paginação',
+    type: WhitelabelPresenter,
+    isArray: true,
   })
   @Get('search')
   async searchWhitelabels(@Query() searchDto: SearchWhitelabelsDto) {
     return await this.listWhitelabelsUseCase.execute(searchDto);
   }
+
   @ApiOperation({ summary: 'Buscar um Whitelabel pelo ID' })
   @ApiResponse({ status: HttpStatus.OK, type: WhitelabelPresenter })
   @ApiNotFoundResponse({ description: 'Whitelabel não encontrado' })
@@ -76,7 +79,7 @@ export class WhitelabelsController {
     @Param('whitelabelId') whitelabelId: string,
   ): Promise<WhitelabelPresenter> {
     const whitelabel = await this.getWhitelabelUseCase.execute({
-      whitelabel_id: whitelabelId,
+      whitelabelId,
     });
     return new WhitelabelPresenter(whitelabel);
   }
@@ -90,8 +93,8 @@ export class WhitelabelsController {
     @Body() dto: CreateWhitelabelDto,
   ): Promise<WhitelabelPresenter> {
     const whitelabel = await this.updateWhitelabelUseCase.execute({
-      whitelabel_id: whitelabelId,
       ...dto,
+      whitelabelId,
     });
     return new WhitelabelPresenter(whitelabel);
   }
@@ -103,6 +106,6 @@ export class WhitelabelsController {
   async deleteWhitelabel(
     @Param('whitelabelId') whitelabelId: string,
   ): Promise<void> {
-    await this.deleteWhitelabelUseCase.execute({ whitelabel_id: whitelabelId });
+    await this.deleteWhitelabelUseCase.execute({ whitelabelId });
   }
 }

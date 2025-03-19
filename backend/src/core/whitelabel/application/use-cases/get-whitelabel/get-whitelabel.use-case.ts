@@ -13,7 +13,7 @@ export class GetWhitelabelUseCase
   constructor(private readonly whitelabelRepository: IWhitelabelRepository) {}
 
   async execute(input: GetWhitelabelInput): Promise<GetWhitelabelOutput> {
-    const whitelabelId = new WhitelabelId(input.whitelabel_id);
+    const whitelabelId = new WhitelabelId(input.whitelabelId);
     const whitelabel = await this.whitelabelRepository.findById(whitelabelId);
 
     if (!whitelabel)
@@ -24,7 +24,7 @@ export class GetWhitelabelUseCase
 }
 
 export type GetWhitelabelInput = {
-  whitelabel_id: string;
+  whitelabelId: string;
 };
 
 export type GetWhitelabelOutput = WhitelabelOutput;
