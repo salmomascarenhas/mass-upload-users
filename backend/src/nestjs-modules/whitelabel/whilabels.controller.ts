@@ -8,6 +8,7 @@ import {
   Param,
   Post,
   Put,
+  Query,
 } from '@nestjs/common';
 import {
   ApiConflictResponse,
@@ -20,8 +21,10 @@ import {
 import { CreateWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/create-whitelabel/create-whitelabel.use-case';
 import { DeleteWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/delete-whitelabel/delete-whitelabel.use-case';
 import { GetWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/get-whitelabel/get-whitelabel.use-case';
+import { ListWhitelabelsUseCase } from '../../core/whitelabel/application/use-cases/list-whitelabels/list-whitelabels.use-case';
 import { UpdateWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/update-whitelabel/update-whitelabel.use-case';
 import { CreateWhitelabelDto } from './dto/create-whitelabel.dto';
+import { SearchWhitelabelsDto } from './dto/search-whitelabels.dto';
 import { WhitelabelPresenter } from './presenter/whitelabel.presenter';
 
 @ApiTags('Whitelabels')
@@ -39,6 +42,9 @@ export class WhitelabelsController {
   @Inject(GetWhitelabelUseCase)
   private readonly getWhitelabelUseCase: GetWhitelabelUseCase;
 
+  @Inject(ListWhitelabelsUseCase)
+  private readonly listWhitelabelsUseCase: ListWhitelabelsUseCase;
+
   @ApiOperation({
     summary: 'Criar um Whitelabel',
     description: 'Cria um novo Whitelabel',
@@ -53,6 +59,15 @@ export class WhitelabelsController {
     return new WhitelabelPresenter(whitelabel);
   }
 
+  @ApiOperation({ summary: 'Buscar Whitelabels' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Permite buscar Whitelabels com paginação',
+  })
+  @Get('search')
+  async searchWhitelabels(@Query() searchDto: SearchWhitelabelsDto) {
+    return await this.listWhitelabelsUseCase.execute(searchDto);
+  }
   @ApiOperation({ summary: 'Buscar um Whitelabel pelo ID' })
   @ApiResponse({ status: HttpStatus.OK, type: WhitelabelPresenter })
   @ApiNotFoundResponse({ description: 'Whitelabel não encontrado' })
