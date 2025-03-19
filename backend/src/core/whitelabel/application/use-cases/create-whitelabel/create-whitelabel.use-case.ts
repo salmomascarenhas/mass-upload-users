@@ -2,7 +2,7 @@ import { IUseCase } from '../../../../shared/application/use-case.interface';
 import { EntityValidationError } from '../../../../shared/domain/validators/validation.error';
 import { Whitelabel } from '../../../domain/whitelabel';
 import { IWhitelabelRepository } from '../../../domain/whitelabel.repository';
-import { WhitelabelAlreadyExistsError } from '../../errors/whitelabel-already-exists.error';
+import { WhitelabelNameAlreadyExistsError } from '../../errors/whitelabel-name-already-exists.error';
 import {
   WhitelabelOutput,
   WhitelabelOutputMapper,
@@ -17,7 +17,7 @@ export class CreateWhitelabelUseCase
       input.name,
     );
     if (whitelabelWithSameName)
-      throw new WhitelabelAlreadyExistsError(input.name, Whitelabel);
+      throw new WhitelabelNameAlreadyExistsError(input.name, Whitelabel);
 
     const whitelabelEntity = Whitelabel.create({
       ...input,

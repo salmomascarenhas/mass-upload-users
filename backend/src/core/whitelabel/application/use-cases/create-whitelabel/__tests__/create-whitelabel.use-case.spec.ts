@@ -1,6 +1,6 @@
 import { Whitelabel } from '../../../../domain/whitelabel';
 import { WhitelabelInMemoryRepository } from '../../../../infra/db/in-memory/whitelabel-in-memory.repository';
-import { WhitelabelAlreadyExistsError } from '../../../errors/whitelabel-already-exists.error';
+import { WhitelabelNameAlreadyExistsError } from '../../../errors/whitelabel-name-already-exists.error';
 import { CreateWhitelabelUseCase } from '../create-whitelabel.use-case';
 
 describe('CreateWhitelabelUseCase Unit Tests', () => {
@@ -41,7 +41,7 @@ describe('CreateWhitelabelUseCase Unit Tests', () => {
     await useCase.execute(input);
 
     await expect(() => useCase.execute(input)).rejects.toThrowError(
-      new WhitelabelAlreadyExistsError(input.name, Whitelabel),
+      new WhitelabelNameAlreadyExistsError(input.name, Whitelabel),
     );
   });
 });
