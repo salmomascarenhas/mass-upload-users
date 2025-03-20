@@ -7,6 +7,7 @@ import { join } from 'path';
 import { CONFIG_SCHEMA_TYPE } from '../../shared/config/config.schema';
 import { RedisModule } from '../../shared/redis/redis.module';
 import { CsvImportChunkEvents } from './chunk/csv-import-chunk.events';
+import { CreateImportCsvEvents } from './create/create-import-csv.events';
 import { CsvImportProcessor } from './create/create-import-csv.processor';
 import { CSV_IMPORT, CSV_IMPORT_CHUNK } from './csv-import-queues.const';
 import { CsvImportQueuesService } from './csv-import-queues.service';
@@ -50,7 +51,17 @@ import { CsvImportQueuesService } from './csv-import-queues.service';
       },
     ),
   ],
-  providers: [CsvImportQueuesService, CsvImportChunkEvents, CsvImportProcessor],
-  exports: [CsvImportQueuesService, CsvImportChunkEvents, CsvImportProcessor],
+  providers: [
+    CsvImportQueuesService,
+    CsvImportChunkEvents,
+    CreateImportCsvEvents,
+    CsvImportProcessor,
+  ],
+  exports: [
+    CsvImportQueuesService,
+    CsvImportChunkEvents,
+    CreateImportCsvEvents,
+    CsvImportProcessor,
+  ],
 })
 export class CsvImportQueueModule {}
