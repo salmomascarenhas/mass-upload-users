@@ -2,6 +2,10 @@ networks:
   app-network:
     driver: bridge
 
+volumes:
+  redis_data:
+    driver: local
+
 services:
   postgres:
     image: "postgres:17.0"
@@ -51,6 +55,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
+      redis:
+        condition: service_healthy
   # frontend:
   #   container_name: "mass_upload_application_frontend_${NODE_ENV}"
   #   image: "mass_upload_application_frontend_${NODE_ENV}"
@@ -70,3 +76,17 @@ services:
   #   restart: unless-stopped
   #   depends_on:
   #     - backend
+  redis:
+    image: redis:7.4-alpine
+    container_name: redis_mua
+    command: redis-server --save 300 1 --loglevel warning
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+    restart: unless-stopped
