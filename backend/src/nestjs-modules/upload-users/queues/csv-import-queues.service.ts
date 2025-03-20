@@ -3,8 +3,8 @@ import { Injectable } from '@nestjs/common';
 import { FlowJob, FlowProducer, JobNode } from 'bullmq';
 import { flowWaitUntilFinished } from '../../shared/bull-mq/wait-flow-function';
 import { CreateUserDto } from '../../users/dto/create-user.dto';
-import { CsvImportChunkEvents } from './chunk/csv-import-chunk.events';
 import { CsvImportChunkInput } from './chunk/csv-import-chunk.interfaces';
+import { CreateImportCsvEvents } from './create/create-import-csv.events';
 import { CSV_IMPORT, CSV_IMPORT_CHUNK } from './csv-import-queues.const';
 
 export interface CsvImportFlowInput {
@@ -18,7 +18,7 @@ export class CsvImportQueuesService {
   constructor(
     @InjectFlowProducer(CSV_IMPORT.producer)
     private readonly flowProducer: FlowProducer,
-    private readonly csvImportChunkEvents: CsvImportChunkEvents,
+    private readonly createImportCsvEvents: CreateImportCsvEvents,
   ) {}
 
   /**
@@ -66,7 +66,7 @@ export class CsvImportQueuesService {
     await flowWaitUntilFinished(
       flowJob,
       TIMEOUT_MS,
-      this.csvImportChunkEvents.queueEvents,
+      this.createImportCsvEvents.queueEvents,
     );
   }
 }
