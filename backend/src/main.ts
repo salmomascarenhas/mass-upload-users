@@ -4,7 +4,7 @@ import { NestFactory } from '@nestjs/core';
 import { urlencoded } from 'express';
 import { AppModule } from './app.module';
 import { applyGlobalSetup } from './global-setup';
-import { CONFIG_SCHEMA_TYPE } from './nestjs-modules/config/config.schema';
+import { CONFIG_SCHEMA_TYPE } from './nestjs-modules/shared/config/config.schema';
 import { SwaggerGlobalSetup } from './swagger-global-setup';
 
 async function bootstrap() {
