@@ -5,7 +5,7 @@ import { ListWhitelabelsUseCase } from '../../core/whitelabel/application/use-ca
 import { UpdateWhitelabelUseCase } from '../../core/whitelabel/application/use-cases/update-whitelabel/update-whitelabel.use-case';
 import { WhitelabelInMemoryRepository } from '../../core/whitelabel/infra/db/in-memory/whitelabel-in-memory.repository';
 import { WhitelabelPrismaRepository } from '../../core/whitelabel/infra/db/prisma/whitelabel-prisma.repository';
-import { PrismaService } from '../database/prisma/prisma.service';
+import { PrismaService } from '../shared/database/prisma/prisma.service';
 
 export const REPOSITORIES = {
   WHITELABEL_REPOSITORY: {

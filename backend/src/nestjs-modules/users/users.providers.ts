@@ -7,7 +7,7 @@ import { IUserRepository } from '../../core/user/domain/user.repository';
 import { UserInMemoryRepository } from '../../core/user/infra/db/in-memory/user-in-memory.repository';
 import { UserPrismaRepository } from '../../core/user/infra/db/prisma/user-prisma.repository';
 import { IWhitelabelRepository } from '../../core/whitelabel/domain/whitelabel.repository';
-import { PrismaService } from '../database/prisma/prisma.service';
+import { PrismaService } from '../shared/database/prisma/prisma.service';
 import { WHITELABEL_PROVIDERS } from '../whitelabel/whitelabels.providers';
 
 export const REPOSITORIES = {
