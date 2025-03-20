@@ -31,9 +31,7 @@ export class CsvImportProcessor extends WorkerHost {
     super();
   }
 
-  async process(
-    job: Job<CsvImportParentInput>,
-  ): Promise<CsvImportParentOutput> {
+  async process(job: Job<CsvImportParentInput>): Promise<any> {
     const { filePath, flowId } = job.data;
 
     this.logger.log(
@@ -72,12 +70,9 @@ export class CsvImportProcessor extends WorkerHost {
 
     const finalKey = `csvImport:${flowId}:final`;
     await this.redisService.redisClient.set(finalKey, JSON.stringify(result));
-
     this.logger.log(
       `CSV Import finalizado. Sucesso: ${totalSuccess}, Falhas: ${errorDetails.length}`,
     );
-
-    return result;
   }
 
   @OnWorkerEvent('completed')
