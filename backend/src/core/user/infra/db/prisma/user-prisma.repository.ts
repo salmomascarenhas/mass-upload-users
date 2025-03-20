@@ -1,4 +1,4 @@
-import { PrismaService } from '../../../../../nestjs-modules/database/prisma/prisma.service';
+import { PrismaService } from '../../../../../nestjs-modules/shared/database/prisma/prisma.service';
 import { InvalidArgumentError } from '../../../../shared/domain/errors/invalid-argument.error';
 import { NotFoundEntityError } from '../../../../shared/domain/errors/not-found-entity.error';
 import { CpfCnpj } from '../../../../shared/domain/value-objects/cpf-cnpj.vo';
