@@ -17,8 +17,7 @@ import {
 export default async function CsvImportChunk(
   job: SandboxedJob<CsvImportChunkInput>,
 ): Promise<CsvImportChunkOutput> {
-  const { chunkIndex, chunk } = job.data;
-  console.log(`Processando chunk ${chunkIndex}, total: ${chunk.length} linhas`);
+  const { chunkIndex, chunk, flowId } = job.data;
 
   let successCount = 0;
   const errors: CsvImportChunkOutput['errors'] = [];
@@ -40,6 +39,11 @@ export default async function CsvImportChunk(
     const validRows: CreateUserDto[] = [];
 
     for (let i = 0; i < chunk.length; i++) {
+      const progressObj = {
+        flowId: flowId,
+        progressPercent: Math.floor((i / chunk.length) * 100),
+      };
+      await job.updateProgress(progressObj);
       const row = chunk[i];
 
       const dtoInstance = plainToInstance(CreateUserDto, row);
@@ -73,13 +77,19 @@ export default async function CsvImportChunk(
 
       await prisma.users.createMany({
         data: insertData,
-        skipDuplicates: false,
+        skipDuplicates: true,
       });
 
       successCount = validRows.length;
     }
 
+    const progressObj = {
+      flowId: flowId,
+      progressPercent: 100,
+    };
+    await job.updateProgress(progressObj);
     return {
+      flowId: flowId,
       status: 'OK',
       chunkIndex,
       successCount,

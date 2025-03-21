@@ -5,6 +5,7 @@ import { Module } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { join } from 'path';
 import { CONFIG_SCHEMA_TYPE } from '../../shared/config/config.schema';
+import { UploadGateway } from '../../shared/events/upload.gateway';
 import { RedisModule } from '../../shared/redis/redis.module';
 import { CsvImportChunkEvents } from './chunk/csv-import-chunk.events';
 import { CreateImportCsvEvents } from './create/create-import-csv.events';
@@ -56,6 +57,7 @@ import { CsvImportQueuesService } from './csv-import-queues.service';
     CsvImportChunkEvents,
     CreateImportCsvEvents,
     CsvImportProcessor,
+    UploadGateway,
   ],
   exports: [
     CsvImportQueuesService,

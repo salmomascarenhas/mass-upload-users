@@ -1,12 +1,18 @@
 import { ApiProperty } from '@nestjs/swagger';
-import { IsEmail, IsNotEmpty, IsString, IsUUID } from 'class-validator';
+import {
+  IsEmail,
+  IsNotEmpty,
+  IsString,
+  IsUUID,
+  MaxLength,
+} from 'class-validator';
 import { CreateUserInput } from '../../../core/user/application/use-cases/create-user/create-user.use-case';
 
 export class CreateUserDto implements CreateUserInput {
-  whitelabel_id: string;
   @ApiProperty({ description: 'Nome completo do usuário', example: 'John Doe' })
   @IsString()
   @IsNotEmpty()
+  @MaxLength(255)
   name: string;
 
   @ApiProperty({
@@ -15,6 +21,7 @@ export class CreateUserDto implements CreateUserInput {
   })
   @IsEmail()
   @IsNotEmpty()
+  @MaxLength(255)
   email: string;
 
   @ApiProperty({ description: 'CPF do usuário', example: '091.012.426-44' })

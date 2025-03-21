@@ -85,13 +85,8 @@ export class UploadUsersController {
     if (!file)
       throw new HttpException('Arquivo não enviado', HttpStatus.BAD_REQUEST);
 
-    const result = await this.uploadUsersService.uploadUsers({
-      filePath: file.path,
-    });
+    const flowId = await this.uploadUsersService.startImportAsync(file.path);
 
-    return {
-      message: 'CSV import finalizado com sucesso!',
-      ...result,
-    };
+    return { message: 'Upload agendado com sucesso', flowId };
   }
 }

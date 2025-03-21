@@ -1,5 +1,3 @@
-// src/nestjs-modules/upload-users/queues/create/create-import-csv.processor.ts
-
 import { OnWorkerEvent, Processor, WorkerHost } from '@nestjs/bullmq';
 import { Injectable, Logger } from '@nestjs/common';
 import { Job } from 'bullmq';
@@ -13,6 +11,7 @@ export interface CsvImportParentInput {
 }
 
 export interface CsvImportParentOutput {
+  flowId: string;
   totalSuccess: number;
   totalErrors: number;
   errorDetails: Array<{
@@ -55,6 +54,7 @@ export class CsvImportProcessor extends WorkerHost {
     }
 
     const result: CsvImportParentOutput = {
+      flowId,
       totalSuccess,
       totalErrors: errorDetails.length,
       errorDetails,
@@ -68,11 +68,25 @@ export class CsvImportProcessor extends WorkerHost {
       );
     });
 
+    const totalChunks = Object.keys(childrenValues).length;
+    const completedChunks = Object.values(childrenValues).filter(
+      (c) => c.status === 'OK',
+    ).length;
+    const progressPercent = Math.floor((completedChunks / totalChunks) * 100);
+
+    const progressObj = {
+      flowId,
+      progressPercent,
+    };
+    await job.updateProgress(progressObj);
+
     const finalKey = `csvImport:${flowId}:final`;
     await this.redisService.redisClient.set(finalKey, JSON.stringify(result));
     this.logger.log(
       `CSV Import finalizado. Sucesso: ${totalSuccess}, Falhas: ${errorDetails.length}`,
     );
+
+    return result;
   }
 
   @OnWorkerEvent('completed')

@@ -40,6 +40,19 @@ export class UploadUsersService {
     return finalResult || { message: 'Nenhum resultado encontrado' };
   }
 
+  async startImportAsync(filePath: string): Promise<string> {
+    const flowId = nanoid();
+    const linesByChunks = await this.readCsvFile(filePath);
+
+    await this.csvImportQueuesService.createCsvImportFlow({
+      filePath,
+      flowId,
+      linesByChunks,
+    });
+
+    return flowId;
+  }
+
   /**
    * Lê o CSV usando stream e divide em chunks de 500
    */
@@ -61,7 +74,6 @@ export class UploadUsersService {
 
     if (batch.length > 0) linesByChunks.push(batch);
 
-    console.log(`CSV lido e dividido em ${linesByChunks.length} chunks`);
     return linesByChunks;
   }
 }

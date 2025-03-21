@@ -1,4 +1,3 @@
-// csv-import-queues.module.ts
 import { Module } from '@nestjs/common';
 import { RedisModule } from '../shared/redis/redis.module';
 import { CsvImportQueueModule } from './queues/csv-import-queues.module';

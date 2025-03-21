@@ -50,6 +50,7 @@ export class CsvImportQueuesService {
         data: {
           chunkIndex: index,
           chunk,
+          flowId,
         } as CsvImportChunkInput,
         opts: {
           removeOnComplete: true,
