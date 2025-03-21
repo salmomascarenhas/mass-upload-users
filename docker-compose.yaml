@@ -57,25 +57,21 @@ services:
         condition: service_healthy
       redis:
         condition: service_healthy
-  # frontend:
-  #   container_name: "mass_upload_application_frontend_${NODE_ENV}"
-  #   image: "mass_upload_application_frontend_${NODE_ENV}"
-  #   environment:
-  #     - NODE_ENV:${NODE_ENV}
-  #   build:
-  #     context: ./frontend
-  #     target: "${NODE_ENV}"
-  #     dockerfile: dockerfile
-  #   env_file:
-  #     - .env
-  #   ports:
-  #     - 8080:8080
-  #   volumes:
-  #     - ./frontend:/usr/src/app
-  #     - /usr/src/app/node_modules
-  #   restart: unless-stopped
-  #   depends_on:
-  #     - backend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: dockerfile
+    container_name: csv_frontend
+    restart: always
+    depends_on:
+      - backend
+    ports:
+      - "3001:3001"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    networks:
+      - app-network
   redis:
     image: redis:7.4-alpine
     container_name: ${REDIS_HOSTNAME}
