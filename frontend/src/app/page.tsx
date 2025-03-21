@@ -5,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { useRouter } from 'next/navigation';
 import { useState } from 'react';
+import { apiURL } from '../lib/socket';
+
 
 export default function HomePage() {
   const router = useRouter();
@@ -24,8 +26,7 @@ export default function HomePage() {
     formData.append('file', file);
 
     try {
-      // Ajuste a URL se o seu backend rodar em outro host/porta
-      const res = await fetch('http://localhost:3000/users/upload', {
+      const res = await fetch(`${apiURL}/users/upload`, {
         method: 'POST',
         body: formData,
       });
@@ -34,16 +35,18 @@ export default function HomePage() {
         throw new Error(`Erro no upload: ${res.status} - ${text}`);
       }
 
-      // Espera um JSON { flowId: "...", message: "..."}
       const data = await res.json();
       if (!data.flowId) {
         throw new Error('flowId não encontrado na resposta do backend');
       }
 
-      // Redirecionar para /[flowId]
       router.push(`/${data.flowId}`);
-    } catch (err: any) {
-      setError(err.message || 'Erro ao enviar arquivo');
+    } catch (err: unknown) {
+      if (err instanceof Error) {
+        setError(err.message);
+      } else {
+        setError('Erro ao enviar arquivo');
+      }
     } finally {
       setIsUploading(false);
     }
@@ -60,7 +63,7 @@ export default function HomePage() {
             id="fileInput"
             type="file"
             accept=".csv"
-            onChange={(e) => {
+            onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
               if (!e.target.files || e.target.files.length === 0) {
                 setFile(null);
                 return;

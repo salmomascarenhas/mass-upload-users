@@ -1,12 +1,17 @@
+'use client';
+
 import UploadProgress from '@/components/UploadProgress';
 import Link from 'next/link';
+import { useParams } from 'next/navigation';
 
-export default function FlowProgressPage({ params }: { params: { flowId: string } }) {
+export default function FlowProgressPage() {
+  const { flowId } = useParams() as { flowId: string };
+
   return (
     <main className="max-w-xl mx-auto mt-10">
       <h1 className="text-2xl font-bold mb-4">Status do Upload</h1>
 
-      <UploadProgress flowId={params.flowId} />
+      <UploadProgress flowId={flowId} />
 
       <div className="mt-6">
         <Link

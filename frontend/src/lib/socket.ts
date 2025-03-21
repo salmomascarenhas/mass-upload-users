@@ -1,7 +1,8 @@
 import { io, Socket } from "socket.io-client";
 
 let socket: Socket;
-const apiURL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
+export const apiURL =
+  process.env.NEXT_PUBLIC_API_URL || "http://localhost:3000";
 
 export function connectToSocket(flowId: string) {
   if (!socket || !socket.connected) {
