@@ -11,9 +11,9 @@ datasource db {
 model Users {
   id         String  @id @default(uuid()) @db.Uuid
 
-  name       String  @db.VarChar(255)
-  cpfCnpj    String  @db.VarChar(14)
-  email      String  @db.VarChar(255)
+  name       String  @db.VarChar(500)
+  cpfCnpj    String  @db.VarChar(255)
+  email      String  @db.VarChar(500)
   createdAt  DateTime @default(now()) @db.Timestamp(3)
   updatedAt  DateTime @default(now()) @db.Timestamp(3)
 
@@ -28,8 +28,8 @@ model Users {
 model Whitelabel {
   id        String  @id @default(uuid()) @db.Uuid
 
-  name      String  @db.VarChar(255)
-  url       String  @db.VarChar(255) @unique
+  name      String  @db.VarChar(500)
+  url       String  @db.VarChar(500) @unique
   createdAt DateTime @default(now()) @db.Timestamp(3)
   updatedAt DateTime @default(now()) @db.Timestamp(3)
 

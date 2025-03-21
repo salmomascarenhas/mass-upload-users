@@ -1,0 +1,2 @@
+-- AlterTable
+ALTER TABLE "users" ALTER COLUMN "cpfCnpj" SET DATA TYPE VARCHAR(255);
