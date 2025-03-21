@@ -60,6 +60,7 @@ services:
   frontend:
     build:
       context: ./frontend
+      target: "${NODE_ENV}"
       dockerfile: dockerfile
     container_name: csv_frontend
     restart: always
@@ -67,9 +68,6 @@ services:
       - backend
     ports:
       - "3001:3001"
-    volumes:
-      - ./frontend:/app
-      - /app/node_modules
     networks:
       - app-network
   redis:
